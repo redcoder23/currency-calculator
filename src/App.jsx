@@ -1,47 +1,75 @@
 import { useState } from "react";
-import "./App.css"; 
-import index from "./components/index"
+import "./App.css";
 import InputBox from "./components/Inputbox";
-import usecurrencyinfo from "./hooks/usecurrencyinfo"
+import usecurrencyinfo from "./hooks/usecurrencyinfo";
 
-function App() { 
-      const [amount,setamount]=useState('0'); 
-      const [currency,changecurrency]=useState('usd');  
-      const[from ,setfrom]=useState('usd');
-      const[to ,setto]=useState('inr'); 
-      const[convertedamount,setconvertedamount]=useState('0'); 
-      const  currencyinfo=usecurrencyinfo(from); 
+function App() {
+  const [amount, setamount] = useState("0");
+  const [from, setfrom] = useState("inr");
+  const [to, setto] = useState("usd");
+  const [convertedamount, setconvertedamount] = useState("0");
 
-      const options=Object.keys(currencyinfo); 
-      const swap=()=>{ 
-         setfrom(to) ;
-         setto(from); 
-         setconvertedamount(amount); 
-         setamount(convertedamount); 
-      }  
-       
-      const convert=()=> {
-      setconvertedamount(amount*currencyinfo[to]); 
-      }
-    return (
-        <div style={{position:'flex',direction:'column',backgroundImage:`url('https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`}}>  
-              <InputBox 
-                label="from"
-                amount={amount} 
-                currencyarr={options} 
-                changecurramountf={(amount)=>setamount(amount)} 
-                changecurrencyf={(currency)=>changecurrency(currency)}
-                />   
-             <button style={{color:'blue'}} onClick={swap}>swap</button>
-        <InputBox  
-        label="to" 
-        amount={convertedamount} 
-        currencyarr={options} 
-        changecurrencyf={(currency)=>changecurrency(currency)}
-        />  
-        <button style={{color:'blue'}} onClick={convert}>convert {from.toUpperCase} to {to.toUpperCase}</button>
-       </div> 
-  ); 
+  const currencyinfo = usecurrencyinfo(from);
+  const options = Object.keys(currencyinfo);
+
+  const swap = () => {
+    setfrom(to);
+    setto(from);
+    setconvertedamount(amount);
+    setamount(convertedamount);
+  };
+
+  const convert = () => {
+    setconvertedamount(amount * currencyinfo[to]);
+  };
+
+  return (
+    <div
+    style={{
+      backgroundImage: `url('https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=1170&auto=format&fit=crop')`,
+      height: "100vh",
+      width: "100vw",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      flexDirection: "column",
+      gap: "10px",
+    }}
+  >  
+          <div> 
+        <InputBox
+          label="From"
+          amount={amount}
+          currency={from}
+          currencyarr={options}
+          changecurramountf={(amount) => setamount(amount)}
+          changecurrencyf={(currency) => setfrom(currency)}
+          />
+          </div>
+            
+          <div> 
+        <button className="swap-btn" onClick={swap}>
+          ⇅ Swap
+        </button>
+          </div>
+ 
+   <div> 
+
+        <InputBox
+          label="To"
+          amount={convertedamount}
+          currency={to}
+          currencyarr={options}
+          changecurrencyf={(to) => setto(to)}
+          />
+          </div>
+         <div> 
+        <button className="convert-btn" onClick={convert}>
+          Convert {from.toUpperCase()} → {to.toUpperCase()}
+        </button>
+         </div>
+    </div>
+  );
 }
 
 export default App;

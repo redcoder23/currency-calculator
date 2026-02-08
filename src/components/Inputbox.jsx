@@ -49,6 +49,7 @@ function InputBox({
             width: "100%",  
             height: "48px",     
             fontSize: "16px",    
+            color:'white'
           }}
         />
       </div>
@@ -64,7 +65,7 @@ function InputBox({
               color:'black'
             }}
           >
-            {label}
+             
           </label>
         </div>
 
@@ -75,6 +76,7 @@ function InputBox({
             width: "100%",       
             height: "48px",      
             fontSize: "16px",
+            color:'white'
           }}  
           value={currency}
           onChange={(e)=>changecurrencyf && changecurrencyf(e.target.value)}
